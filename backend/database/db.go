@@ -12,7 +12,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	connStr := "postgresql://trello-clone-db_owner:npg_T9tvyrxE2Mja@ep-morning-bar-abayuwqx-pooler.eu-west-2.aws.neon.tech/trello-clone-db?sslmode=require"
+	connStr := ""
 	db, err := gorm.Open(postgres.Open(connStr), &gorm.Config{})
 	if err != nil {
 		panic(err)
