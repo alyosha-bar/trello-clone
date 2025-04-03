@@ -3,7 +3,9 @@ package database
 import (
 	"fmt"
 	"log"
+	"os"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -12,10 +14,22 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	connStr := ""
+	// Load environment variables from .env file
+	err := godotenv.Load("../.env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Get the database URL from environment variables
+	connStr, exists := os.LookupEnv("DB_URL")
+	if !exists {
+		log.Fatal("DB_URL environment variable not set")
+	}
+
+	// Open a connection to the database
 	db, err := gorm.Open(postgres.Open(connStr), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		log.Fatal("Failed to connect to database:", err)
 	}
 
 	DB = db
