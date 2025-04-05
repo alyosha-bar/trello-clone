@@ -100,13 +100,16 @@ const Workspace = () => {
       status: newStatus
     } : task))
 
+
+    // call endpoint to update the task's status to make dnd feature persistent
+
   }
 
 
 
   return (
     <div className="bg-[#1ba57c] h-screen p-10 flex">
-      <button onClick={() => console.log(tasks)}> YO </button>
+      {/* <button onClick={() => console.log(tasks)}> YO </button> */}
       <div className="flex gap-8">
         <DndContext onDragEnd={handleDragEnd}>
         {Stages.map( (stage) => {

@@ -11,20 +11,41 @@ interface StageProps {
 const Stage: React.FC<StageProps> = ({ stage, tickets }) => {
 
   // Setting colors for each status
-  // const statusColors: Record<Ticket["status"], string> = {
-  //   "Planned": "#F4D03F",
-  //   "In progress": "#3498DB",
-  //   "Testing": "#E67E22",
-  //   "Completed": "#2ECC71",
-  // };
+  const statusColors: Record<Ticket["status"], string> = {
+    "Planned": "#F4D03F",
+    "In progress": "#3498DB",
+    "Testing": "#E67E22",
+    "Completed": "#2ECC71",
+  };
+
+  var color = ""
+
+  switch(stage.id) {
+    case "Planned":
+      color = "#F4D03F"
+      break
+    case "In progress":
+      color = "#3498DB"
+      break
+    case "Testing":
+      color = "#E67E22"
+      break
+    case "Completed":
+      color = "#2ECC71"
+  }
 
 
   const {setNodeRef} = useDroppable({
     id: stage.id
   })
 
+
+
   return (
-    <div className="flex w-80 flex-col rounded-lg bg-neutral-800 p-4">
+    <div 
+    className={`flex w-80 flex-col rounded-lg p-4`}
+    style={{backgroundColor: color}}
+    >
       <h2 className="mb-4 font-semibold text-neutral-100 ">
         {stage.title}
       </h2>

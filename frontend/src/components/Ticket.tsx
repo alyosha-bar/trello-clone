@@ -17,14 +17,16 @@ const Task: React.FC<TaskProps> = ({ ticket }) => {
 
 
   return (
-    <li 
-      ref={setNodeRef} 
-      {...listeners} 
-      {...attributes} 
-      style={style}
-      className="list-none ">
-        <div> {ticket.title} </div>
-    </li>
+  <div 
+    ref={setNodeRef} 
+    {...listeners} 
+    {...attributes} 
+    style={style}
+    className="bg-white rounded-2xl shadow-md p-4 mb-4 cursor-grab hover:shadow-lg transition-shadow duration-200 list-none"
+  >
+    <div className="font-semibold text-gray-800 text-base mb-1">{ticket.title}</div>
+    <div className="text-sm text-gray-600">{ticket.description}</div>
+  </div>
   );
 };
 
