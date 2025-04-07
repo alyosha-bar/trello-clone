@@ -1,4 +1,4 @@
-import { ReactElement, FC } from 'react';
+import { ReactElement, FC, useState } from 'react';
 import CreateWorkspaceForm from './CreateWorkspaceForm';
 
 
@@ -8,9 +8,6 @@ interface ModalProps {
 }
 
 const CreateWorkspaceModal = (props : ModalProps) : ReturnType<FC> => {
-    
-
-    
     
     return ( 
         <div className={`fixed top-0 left-0 w-full h-full bg-black/60 ${props.open ? 'block' : 'hidden'}`}>
@@ -30,10 +27,7 @@ const CreateWorkspaceModal = (props : ModalProps) : ReturnType<FC> => {
                 </div>
 
                 {/* Workspace form */}
-                <CreateWorkspaceForm
-                onSubmit={() => console.log("Submitted.")}
-                onCancel={() => console.log("Cancelled.")}
-                />
+                <CreateWorkspaceForm close={props.onClose}/>
             </div>
             </div>
     );

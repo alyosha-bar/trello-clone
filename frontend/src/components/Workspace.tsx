@@ -21,39 +21,6 @@ const getTickets = async () => {
   return response.json();
 }
 
-// const data : Ticket[]= [
-//   {
-//     id: 1,
-//     title: "Planned task 1",
-//     description: "Blah blah",
-//     status: "Planned",
-//   },
-//   {
-//     id: 2,
-//     title: "developing",
-//     description: "Blah blah",
-//     status: "In progress",
-//   },
-//   {
-//     id: 3,
-//     title: "Testing 1",
-//     description: "Blah blah",
-//     status: "Testing",
-//   },
-//   {
-//     id: 4,
-//     title: "Done 1",
-//     description: "Blah blah",
-//     status: "Completed",
-//   },
-//   {
-//     id: 5,
-//     title: "Finished",
-//     description: "Blah blah",
-//     status: "Completed",
-//   },
-// ]
-
 
 const Workspace = () => {
 
