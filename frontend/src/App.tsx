@@ -10,7 +10,6 @@ function App() {
 
   const queryClient = new QueryClient()
 
-
   return (
     <>
       <Navbar />
