@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import Stage from "./Stage";
 import { Ticket } from "../types/TicketTypes";
-import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import { Stage as StageType } from "../types/StageTypes";
 
-// this file is responsible for fetching the workspace and associated tasks
+// this file is responsible for fetching the workspadce and associated tasks
 // sort the tasks into their categories and pass into each Stage.tsx component
 
 const getTickets = async () => {
@@ -62,19 +62,35 @@ const Workspace = () => {
 
     const newStatus = over.id as Ticket['status']
     
+    
+    // set status of task to the newStatus
     setTasks(() => tasks?.map(task => task.ID === taskId ? {
       ...task,
       status: newStatus
     } : task))
 
 
+    // check if the status changed -- SMALL OPTIMISATION!!!
+
     // call endpoint to update the task's status to make dnd feature persistent
+    const updatedTicket = updateTicketStage(Number(taskId), newStatus)
 
-    // set status of task to the newStatus
+    console.log(updatedTicket)
+    return
+  }
 
+  const updateTicketStage = async (ticketID : number, stage : String) => {
+    const response = await fetch(`/api/ticket/${ticketID}/${stage}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-
-    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
   }
 
 

@@ -19,8 +19,13 @@ func SetupRoutes(router *gin.Engine) {
 	{
 		ticketsRoutes.GET("/:workspace_id", handlers.GetAllTicketsInWorkspaceHandler)
 		// GET 1 ticket --> more details
+		// ticketsRoutes.GET("/:ticket_id", handlers.)
+
 		// Create a ticket
+
 		// Update a ticket
+		ticketsRoutes.PATCH("/:ticket_id/:stage", handlers.UpdateTicketStage)
+
 		// Delete a ticket
 	}
 
