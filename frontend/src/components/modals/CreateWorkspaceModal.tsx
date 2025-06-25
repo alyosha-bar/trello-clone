@@ -1,5 +1,5 @@
-import { ReactElement, FC, useState } from 'react';
-import CreateWorkspaceForm from './CreateWorkspaceForm';
+import { FC } from 'react';
+import CreateWorkspaceForm from '../util/CreateWorkspaceForm';
 
 
 interface ModalProps {

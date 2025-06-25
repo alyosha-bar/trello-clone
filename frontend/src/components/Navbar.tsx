@@ -2,7 +2,7 @@
 // fetch all workspaces associated with user for the dropdown menu
 
 import { useState } from "react";
-import CreateWorkspaceModal from "./CreateWorkspaceModal";
+import CreateWorkspaceModal from "./modals/CreateWorkspaceModal";
 import SlideOutModal from "./SlideOutModal";
 
 
