@@ -9,15 +9,20 @@ import SlideOutModal from "./SlideOutModal";
 
 const Navbar = () => {
 
-    const [showModal, setShowModal] = useState<boolean>(false)
-    const [showModal2, setShowModal2] = useState<boolean>(false)
+    const [showWorkspaceModal, setShowWorkspaceModal] = useState<boolean>(false)
+    const [showTicketModal, setShowTicketModal] = useState<boolean>(false)
+    const [showSideBar, setShowSideBar] = useState<boolean>(false)
 
-    function toggleModal() {
-        setShowModal(!showModal)
+    function toggleWorkspaceModal() {
+        setShowWorkspaceModal(!showWorkspaceModal)
     }
 
-    function toggleModal2() {
-        setShowModal2(!showModal2)
+    function toggleTicketModal() {
+        setShowTicketModal(!showTicketModal)
+    }
+
+    function toggleSideBar() {
+        setShowSideBar(!showSideBar)
     }
 
 
@@ -28,11 +33,12 @@ const Navbar = () => {
 
             {/* Right Side - Buttons */}
             <div className="flex gap-4">
-                <button onClick={toggleModal2} className="px-4 py-2 bg-[#7a563a] rounded-lg hover:bg-opacity-80 transition hover:cursor-pointer">Workspaces</button>
-                <button onClick={toggleModal} className="px-4 py-2 bg-green-600 rounded-lg hover:bg-green-500 transition hover:cursor-pointer">Create +</button>
+                <button onClick={toggleSideBar} className="px-4 py-2 bg-[#7a563a] rounded-lg hover:bg-opacity-80 transition hover:cursor-pointer">Workspaces</button>
+                <button onClick={toggleWorkspaceModal} className="px-4 py-2 bg-green-600 rounded-lg hover:bg-green-500 transition hover:cursor-pointer">Create Workspace +</button>
+                <button onClick={toggleTicketModal} className="px-4 py-2 bg-green-600 rounded-lg hover:bg-green-500 transition hover:cursor-pointer">Create Ticket +</button>
             </div>
-            <CreateWorkspaceModal open={showModal} onClose={toggleModal}/>
-            <SlideOutModal open={showModal2} onClose={toggleModal2} />
+            <CreateWorkspaceModal open={showWorkspaceModal} onClose={toggleWorkspaceModal}/>
+            <SlideOutModal open={showSideBar} onClose={toggleSideBar} />
         </nav>
     );
 }

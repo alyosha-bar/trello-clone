@@ -12,3 +12,11 @@ func GetAllTicketsInWorkspace(workspace_id uint) ([]models.Ticket, error) {
 func UpdateTicketStage(ticketID uint, stage string) (models.Ticket, error) {
 	return repository.UpdateTicketStage(ticketID, stage)
 }
+
+func GetTicketDetails(ticketID uint) (models.Ticket, error) {
+	return repository.GetTicketDetails(ticketID)
+}
+
+func CreateTicket(workspaceID uint, ticket models.Ticket) (models.Ticket, error) {
+	return repository.CreateTicket(workspaceID, ticket)
+}

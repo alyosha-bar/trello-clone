@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"strconv"
 
+	"github.com/alyosha-bar/trello-clone/models"
 	"github.com/alyosha-bar/trello-clone/services"
 	"github.com/gin-gonic/gin"
 )
@@ -56,4 +57,46 @@ func UpdateTicketStage(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, ticket)
+}
+
+func GetTicketDetails(c *gin.Context) {
+	ticketIDStr := c.Param("ticket_id")
+
+	ticketID, err := strconv.ParseUint(ticketIDStr, 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid ticket id."})
+	}
+
+	ticket, err := services.GetTicketDetails(uint(ticketID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update ticket."})
+		return
+	}
+
+	c.JSON(http.StatusOK, ticket)
+}
+
+func CreateTicket(c *gin.Context) {
+	workspaceIDStr := c.Param("workspace_id")
+	var ticket models.Ticket
+
+	workspaceID, err := strconv.ParseUint(workspaceIDStr, 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid ticket id."})
+		return
+	}
+
+	err = c.ShouldBindJSON(&ticket)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid ticket in request."})
+		return
+	}
+
+	ticket_return, err := services.CreateTicket(uint(workspaceID), ticket)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create ticket."})
+		return
+	}
+
+	c.JSON(http.StatusOK, ticket_return)
 }
