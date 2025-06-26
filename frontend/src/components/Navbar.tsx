@@ -5,6 +5,7 @@ import { useState } from "react";
 import CreateWorkspaceModal from "./modals/CreateWorkspaceModal";
 import SlideOutModal from "./SlideOutModal";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 
 
@@ -30,7 +31,7 @@ const Navbar = () => {
     return ( 
         <nav className="fixed top-0 left-0 w-full z-20 p-4 bg-[#50371e] flex justify-between items-center text-white md:px-6 sm:flex-wrap">
             {/* Left Side - Logo or Brand */}
-            <div className="text-xl font-semibold"> Lock-TF-In </div>
+            <div className="text-xl font-semibold"> <Link to={"/"}> Lock-TF-In </Link> </div>
 
             {/* Right Side - Buttons */}
             <div className="flex gap-4">
