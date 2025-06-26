@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/alyosha-bar/trello-clone/models"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
@@ -43,6 +44,17 @@ func ConnectDB() {
 	err = sqlDB.Ping()
 	if err != nil {
 		log.Fatal("Database ping failed:", err)
+	}
+
+	// 🔧 AutoMigrate models
+	err = DB.AutoMigrate(
+		&models.User{},
+		&models.Workspace{},
+		&models.Ticket{},
+		// Add more as needed
+	)
+	if err != nil {
+		log.Fatal("AutoMigrate failed:", err)
 	}
 
 	fmt.Println("Connected to Neon.tech database successfully!")

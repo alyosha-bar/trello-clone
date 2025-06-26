@@ -4,27 +4,36 @@ import { Ticket } from "../types/TicketTypes";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import { Stage as StageType } from "../types/StageTypes";
+import { fetchWithAuth } from "../utils/fetchWithAuth";
+import { useAuth } from "@clerk/clerk-react";
 
 // this file is responsible for fetching the workspadce and associated tasks
 // sort the tasks into their categories and pass into each Stage.tsx component
 
-const getTickets = async () => {
-  const response = await fetch(`/api/ticket/${2}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-}
-
 
 const Workspace = () => {
 
+  const { getToken } = useAuth()
+
+  const getTickets = async () => {
+
+    const token = await getToken()
+    if (token === null) {
+      throw new Error('Token Missing.');
+    }
+
+    const response = await fetchWithAuth(`/api/ticket/${2}`, token)
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  }
   
+  const { data, error, isLoading, isError } = useQuery<Ticket[], Error>({
+    queryKey: ["tickets"],
+    queryFn: getTickets,
+  });
 
   const Stages: StageType[] = [
     {id: "Planned", title: "Planned"},
@@ -32,12 +41,6 @@ const Workspace = () => {
     {id: "Testing", title: "Testing"},
     {id: "Completed", title: "Completed"},
   ]
-
-
-  const { data, error, isLoading, isError } = useQuery<Ticket[], Error>({
-    queryKey: ["tickets"],
-    queryFn: getTickets,
-  });
 
   const [tasks, setTasks ] = useState<Ticket[] | undefined>(data)
 
@@ -80,10 +83,14 @@ const Workspace = () => {
   }
 
   const updateTicketStage = async (ticketID : number, stage : String) => {
+
+    const token = await getToken()
+
     const response = await fetch(`/api/ticket/${ticketID}/${stage}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     });
 
@@ -96,16 +103,38 @@ const Workspace = () => {
 
 
   return (
-    <div className="bg-[#1ba57c] h-screen p-10 flex">
-      <div className="flex gap-8">
-        <DndContext onDragEnd={handleDragEnd}>
-        {Stages.map( (stage) => {
-          // change the filtering logic for later --> back to what it was
-          return <Stage key={stage.id} stage={stage} tickets={tasks?.filter((ticket) => ticket.status === stage.id)}></Stage>
-        })}
-        </DndContext>
+      <div className="flex bg-[#1ba57c] min-h-screen overflow-x-hidden">
+        {/* Sidebar (fixed) */}
+        <div className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white shadow-lg p-6 text-gray-800 flex flex-col gap-4 z-10">
+          <h2 className="text-xl font-bold mb-2">Sidebar</h2>
+          <button className="bg-[#1ba57c] text-white py-2 px-4 rounded-lg hover:bg-[#168e6c] transition">
+            Create Ticket
+          </button>
+          <button className="bg-[#1ba57c] text-white py-2 px-4 rounded-lg hover:bg-[#168e6c] transition">
+            Settings
+          </button>
+          <button className="bg-[#1ba57c] text-white py-2 px-4 rounded-lg hover:bg-[#168e6c] transition">
+            Delete
+          </button>
+        </div>
+
+        {/* Main content area, scrolls with page */}
+        <div className="pl-64 pt-16 min-h-screen bg-[#1ba57c]">
+          <div className="p-10">
+            <div className="flex gap-8 overflow-x-auto">
+              <DndContext onDragEnd={handleDragEnd}>
+                {Stages.map((stage) => (
+                  <Stage
+                    key={stage.id}
+                    stage={stage}
+                    tickets={tasks?.filter((ticket) => ticket.status === stage.id)}
+                  />
+                ))}
+              </DndContext>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
   );
 };
 

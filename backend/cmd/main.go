@@ -2,26 +2,18 @@ package main
 
 import (
 	"github.com/alyosha-bar/trello-clone/database"
+	"github.com/alyosha-bar/trello-clone/middleware"
 	"github.com/alyosha-bar/trello-clone/routes"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// connect to database
-
-	// set up router
-
-	// run server
-
-	// Load .env file
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
-
 	// Connect to Neon database
 	database.ConnectDB()
 	// database.DB.AutoMigrate(&models.Todo{})
+
+	// initialise Clerk Middleware
+	middleware.InitClerkClient()
 
 	// Setup Gin router
 	router := gin.Default()

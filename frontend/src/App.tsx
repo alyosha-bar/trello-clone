@@ -5,6 +5,7 @@ import './App.css'
 import { QueryClient, QueryClientProvider, useQuery, useQueryClient } from '@tanstack/react-query'
 import Workspace from './components/Workspace'
 import Navbar from './components/Navbar'
+import { SignedIn, SignedOut } from '@clerk/clerk-react'
 
 function App() {
 
@@ -14,7 +15,16 @@ function App() {
     <>
       <Navbar />
       <QueryClientProvider client={queryClient}>
-        <Workspace />
+
+        <SignedOut>
+          {/* make a landing page component */}
+        </SignedOut>
+
+        <SignedIn>
+          {/* make a home route where the user can choose workspace */}
+          {/* make a workspace route to house this: */} 
+          <Workspace />
+        </SignedIn>
       </QueryClientProvider>
     </>
   )
