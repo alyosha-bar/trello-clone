@@ -7,7 +7,7 @@ import (
 
 func GetAllWorkspaces(userID uint) ([]models.Workspace, error) {
 	var workspaces []models.Workspace
-	result := database.DB.Find(&workspaces).Where("user_id = ?", userID)
+	result := database.DB.Where("user_id = ?", userID).Find(&workspaces)
 	return workspaces, result.Error
 }
 

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/alyosha-bar/trello-clone/models"
@@ -19,7 +20,11 @@ func GetWorkspacesHandler(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
-	clerkUserID := clerkUserIDVal.(string)
+	clerkUserID, ok := clerkUserIDVal.(string)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user ID in context"})
+		return
+	}
 
 	user, err := repository.GetUserByClerkID(clerkUserID)
 	if err != nil {
@@ -28,6 +33,7 @@ func GetWorkspacesHandler(c *gin.Context) {
 	}
 
 	userID := user.ID
+	fmt.Println(userID)
 
 	workspaces, err := services.GetAllWorkspaces(userID)
 	if err != nil {

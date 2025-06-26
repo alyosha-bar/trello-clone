@@ -34,17 +34,25 @@ func ClerkAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		token := strings.TrimPrefix(authHeader, "Bearer ")
+		if !strings.HasPrefix(authHeader, "Bearer ") {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid Authorization header format"})
+			return
+		}
+
+		token := strings.TrimSpace(strings.TrimPrefix(authHeader, "Bearer "))
 
 		sessionClaims, err := clerkClient.VerifyToken(token)
 		if err != nil {
-			fmt.Println("Verify token error", err)
+			fmt.Println("Verify token error:", err)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			return
 		}
 
 		clerkUserID := sessionClaims.Claims.Subject
 		c.Set("clerkUserID", clerkUserID)
+
+		fmt.Println(clerkUserID)
+
 		c.Next()
 	}
 }

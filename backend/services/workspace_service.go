@@ -20,7 +20,3 @@ func GetWorkspaceByID(id uint) (models.Workspace, error) {
 func DeleteWorkspace(id uint) error {
 	return repository.DeleteWorkspace(id)
 }
-
-// business logic functions
-
-// in place of repository layer in GPT
