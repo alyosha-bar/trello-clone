@@ -5,9 +5,9 @@ import (
 	"github.com/alyosha-bar/trello-clone/models"
 )
 
-func GetAllWorkspaces() ([]models.Workspace, error) {
+func GetAllWorkspaces(userID uint) ([]models.Workspace, error) {
 	var workspaces []models.Workspace
-	result := database.DB.Find(&workspaces)
+	result := database.DB.Find(&workspaces).Where("user_id = ?", userID)
 	return workspaces, result.Error
 }
 

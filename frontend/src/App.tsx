@@ -6,6 +6,9 @@ import { QueryClient, QueryClientProvider, useQuery, useQueryClient } from '@tan
 import Workspace from './components/Workspace'
 import Navbar from './components/Navbar'
 import { SignedIn, SignedOut } from '@clerk/clerk-react'
+import { Route, Routes } from 'react-router-dom'
+import Landing from './components/Landing'
+import Home from './components/Home'
 
 function App() {
 
@@ -15,16 +18,23 @@ function App() {
     <>
       <Navbar />
       <QueryClientProvider client={queryClient}>
+        
+          <SignedOut>
+            {/* make a landing page component */}
+            <Routes>
+              <Route path='/' element={<Landing />}/>
+            </Routes>
+          </SignedOut>
 
-        <SignedOut>
-          {/* make a landing page component */}
-        </SignedOut>
-
-        <SignedIn>
-          {/* make a home route where the user can choose workspace */}
-          {/* make a workspace route to house this: */} 
-          <Workspace />
-        </SignedIn>
+          <SignedIn>
+            {/* make a home route where the user can choose workspace */}
+            {/* make a workspace route to house this: */} 
+            <Routes>
+              <Route path='/' element={<Home />}/>
+              <Route path='/workspace/:workspace_id' element={<Workspace />}/>
+            </Routes>
+          </SignedIn>
+        
       </QueryClientProvider>
     </>
   )

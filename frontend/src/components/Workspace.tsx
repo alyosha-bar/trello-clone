@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Stage as StageType } from "../types/StageTypes";
 import { fetchWithAuth } from "../utils/fetchWithAuth";
 import { useAuth } from "@clerk/clerk-react";
+import { useParams } from "react-router-dom";
 
 // this file is responsible for fetching the workspadce and associated tasks
 // sort the tasks into their categories and pass into each Stage.tsx component
@@ -14,7 +15,7 @@ import { useAuth } from "@clerk/clerk-react";
 const Workspace = () => {
 
   const { getToken } = useAuth()
-
+  let params = useParams()
   const getTickets = async () => {
 
     const token = await getToken()
@@ -22,7 +23,7 @@ const Workspace = () => {
       throw new Error('Token Missing.');
     }
 
-    const response = await fetchWithAuth(`/api/ticket/${2}`, token)
+    const response = await fetchWithAuth(`/api/ticket/${params.workspace_id}`, token)
 
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -105,6 +106,7 @@ const Workspace = () => {
   return (
       <div className="flex bg-[#1ba57c] min-h-screen overflow-x-hidden">
         {/* Sidebar (fixed) */}
+        <button onClick={() => console.log(params.workspace_id)}> Show </button>
         <div className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white shadow-lg p-6 text-gray-800 flex flex-col gap-4 z-10">
           <h2 className="text-xl font-bold mb-2">Sidebar</h2>
           <button className="bg-[#1ba57c] text-white py-2 px-4 rounded-lg hover:bg-[#168e6c] transition">

@@ -5,8 +5,8 @@ import (
 	"github.com/alyosha-bar/trello-clone/repository"
 )
 
-func GetAllWorkspaces() ([]models.Workspace, error) {
-	return repository.GetAllWorkspaces()
+func GetAllWorkspaces(userID uint) ([]models.Workspace, error) {
+	return repository.GetAllWorkspaces(userID)
 }
 
 func CreateWorkspace(workspace *models.Workspace) error {

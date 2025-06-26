@@ -43,6 +43,7 @@ func SetupRoutes(router *gin.Engine) {
 		ticketsRoutes.PATCH("/:ticket_id/:stage", handlers.UpdateTicketStage)
 
 		// Delete a ticket
+
 	}
 
 }

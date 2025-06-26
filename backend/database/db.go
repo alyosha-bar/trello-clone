@@ -46,12 +46,11 @@ func ConnectDB() {
 		log.Fatal("Database ping failed:", err)
 	}
 
-	// 🔧 AutoMigrate models
+	// AutoMigrate models
 	err = DB.AutoMigrate(
 		&models.User{},
 		&models.Workspace{},
 		&models.Ticket{},
-		// Add more as needed
 	)
 	if err != nil {
 		log.Fatal("AutoMigrate failed:", err)
